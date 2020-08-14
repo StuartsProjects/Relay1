@@ -2,11 +2,9 @@
 /*
 **************************************************************************************************
 
-Easy Build LoRaTracker Programs for Arduino ATMEGA328
+Easy Build Tracker Programs for Arduino ATMEGA328
 
 Copyright of the author Stuart Robinson - 13/08/2016
-
-HTTP://WWW.LORATRACKER.UK
 
 These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -104,6 +102,33 @@ byte  lora_PacketL;			//length of packet received, includes source, destination 
 byte  lora_PacketRSSI;			//RSSI of received packet
 byte  lora_PacketSNR;			//signal to noise ratio of received packet
 
+const char ACK = 'A';
+const char LinkReport = 'B';            //HAB Style in CSV
+const char bLinkReport = 'b';           //binary style
+const char ClearToSend = 'C';
+const char ClearToSendCommand = 'c';
+const char Error = 'E';                      
+const char NoFix = 'F';
+const char NoGPS = 'G';
+const char GLONASSDetected = 'g';
+const char LongPayload = '$';
+const char Memory = 'M';
+const char NACK = 'N';
+const char NACKCommand = 'n';
+const char PowerUp = 'P';               //or reset
+const char Repeated = 'R';
+const char ShortPayload = 'S';
+const char Test = 'T';
+const char Wakeup = 'W';
+const char ResetTracker = 'X';
+const char Config1 = 'Y';
+const char Config0 = 'Z';
+const char WritePacketEEPROM = '0';    //Write bytes to EEPROM 
+const char Bind = '#';
+
+const char Broadcast = '*';            //broadcast address
+const char PacketStart = '$';          //command packets have a payload of at least one byte, so put this at start
+
 /*
 **************************************************************************************************
 Library Functions
@@ -183,7 +208,7 @@ void lora_Setup()
 }
 
 
-byte lora_TXONDirect(byte lora_LTXPower)
+void lora_TXONDirect(byte lora_LTXPower)
 {
   //turns on transmitter,in direct mode for FSK and audio  power level is from 2(dBm) to 17(dBm)
   lora_Write(lora_RegPaConfig, (lora_LTXPower + 0xEE));
@@ -227,6 +252,37 @@ void lora_SetModem(byte lora_LBW, byte lora_LSF, byte lora_LCR, byte lora_LHDR, 
   lora_Write(lora_RegModemConfig2, (lora_LSF * 16 + 7));
   lora_Write(lora_RegModemConfig3, lora_LLDROPT);
 }
+
+
+void lora_Print()
+{
+  //prints the contents of LoRa registers to serial monitor
+  byte Loopv1, Loopv2, Reg, RegData;
+
+  Serial.println(F("LoRa Registers"));
+  Serial.print(F("Reg    0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F"));
+  Serial.println();
+  Reg = 0;
+  for (Loopv1 = 0; Loopv1 <= 7; Loopv1++)
+  {
+    Serial.print(F("0x"));
+    Serial.print(Loopv1, HEX);              //print the register number
+    Serial.print(F("0  "));
+    for (Loopv2 = 0; Loopv2 <= 15; Loopv2++)
+    {
+      RegData = lora_Read(Reg);
+      if (RegData < 0x10) {
+        Serial.print(F("0"));
+      }
+      Serial.print(RegData, HEX);           //print the register number
+      Serial.print(F(" "));
+      Reg++;
+    }
+    Serial.println();
+  }
+}
+
+
 
 
 /*

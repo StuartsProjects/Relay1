@@ -1,16 +1,14 @@
-#define programname "LoRaTracker_Relay"
-#define programversion "V1.1"
-#define dateproduced "130816"
+#define programname "Tracker_Relay"
+#define programversion "V1.2"
+#define dateproduced "07/12/2018"
 #define aurthorname "Stuart Robinson"
-
+#include <Arduino.h>
 /*
 **************************************************************************************************
 
-Easy Build LoRaTracker Programs for Arduino ATMEGA328
+Easy Build Tracker Programs for Arduino ATMEGA328
 
-Copyright of the author Stuart Robinson - 13/08/2016
-
-http://www.LoRaTracker.uk
+Copyright of the author Stuart Robinson - 07/12/2018
 
 These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -29,24 +27,26 @@ To Do:
 
 
                              
-#define Relay                                         //specify PCB type 
+//#define Relay                                       //specify PCB type 
+//#define Pro_Mini_Mikrobus_Shield
+//#define Locator2
+#define LCD_Receiver_Board
 
+#include "Pin_Definitions.h"
 
 //#define EnableSignalReport                          //select this option if relay is to send a signal report for the received packet
 #define CalibrateTone                                 //comment in to have a calibrate tone at startup
 
-#include <Arduino.h>
-#include "Tracker_Definitions.h"
 #include <SPI.h>
 #include "LoRa.h"
 
-const float Frequency1 = 434.400;
+const float Frequency1 = 434.400;                     //relay listens on this frequency    
 const float FreqOffset = 0.0;
 
-const byte relay_Bandwidth = lora_BW62_5;
-const byte relay_SpreadFactor = lora_SF12;
-const byte relay_CodeRate = lora_CR4_5;
-const byte relay_RateOptimisation = lora_LowDoptON;
+const byte relay_Bandwidth = lora_BW62_5;             //LoRa settings for relay listen 
+const byte relay_SpreadFactor = lora_SF8;            //LoRa settings for relay listen
+const byte relay_CodeRate = lora_CR4_5;               //LoRa settings for relay listen
+const byte relay_RateOptimisation = lora_LowDoptOFF;
 const byte relay_Power = 10;
 const char ThisNode = 'R';
 const unsigned int Inter_Packet_Delay = 2000;          //delay from reception of packet to re-transmit
@@ -145,16 +145,17 @@ void init_LoRa()
 void setup()
 {
   
-  pinMode(PLED1, OUTPUT);                      //setup pin for PCB LED
+  pinMode(PLED1, OUTPUT);                     //setup pin for PCB LED
   led_Flash(100, 5);
 
-  Serial.begin(38400);                         //serial console ouput baud rate
+  Serial.begin(115200);                       //serial console ouput baud rate
   Serial.println(F(programname));
   Serial.println(F(programversion));
   Serial.println(F(dateproduced));
   Serial.println(F(aurthorname));
 
   pinMode(lora_PReset, OUTPUT);                //LoRa device reset line
+  digitalWrite(lora_PReset, HIGH);               //enable
   pinMode (lora_PNSS, OUTPUT);                 //set the slave select pin as an output
   digitalWrite(lora_PNSS, HIGH);               //enable
 
@@ -163,7 +164,9 @@ void setup()
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
-  if (lora_CheckDevice() == 1)
+  lora_Print();
+
+  if (lora_CheckDevice() == 0)
   {
     Serial.println(F("Device Error"));
     while (1)
