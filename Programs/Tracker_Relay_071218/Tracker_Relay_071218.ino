@@ -8,7 +8,7 @@
 
 Easy Build Tracker Programs for Arduino ATMEGA328
 
-Copyright of the author Stuart Robinson - 07/12/2018
+Copyright of the author Stuart Robinson - 07/12/2018.
 
 These programs may be used free of charge for personal, recreational and educational purposes only.
 
