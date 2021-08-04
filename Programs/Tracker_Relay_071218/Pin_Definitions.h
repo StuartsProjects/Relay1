@@ -33,20 +33,20 @@ board is plugged into ATMEGA2560 base. Be careful to ensure that all Pro Minis o
 //board hardware definitions
 
 #ifdef Locator2
-  #define lora_DIO0 2                   //pin connected to DIO0 on LoRa device
-  #define lora_TonePin 6                //pin number for radio tone generation, connects to LoRa device pin DIO2
+  #define lora_DIO0 2                    //pin connected to DIO0 on LoRa device
+  #define lora_TonePin 6                 //pin number for radio tone generation, connects to LoRa device pin DIO2
   #define PLED1 8                        //pin number for LED on Tracker
-  #define lora_PReset 9                 //pin where LoRa device reset line is connected
+  #define lora_PReset 9                  //pin where LoRa device reset line is connected
   #define lora_PNSS 10                   //pin number where the NSS line for the LoRa device is connected
 #endif
 
 
 #ifdef Pro_Mini_Mikrobus_Shield
-  #define lora_PNSS 10                  //pin number where the chip select for the LoRa device is connected
-  #define lora_PReset 9                 //pin where LoRa device reset line is connected
-  #define lora_TonePin 6                //pin number for radio tone generation, connects to LoRa device pin DIO2
-  #define lora_DIO0 2                   //pin connected to DIO0 on LoRa device
-  #define PLED1 8                       //pin number for LED 
+  #define lora_PNSS 10                   //pin number where the chip select for the LoRa device is connected
+  #define lora_PReset 9                  //pin where LoRa device reset line is connected
+  #define lora_TonePin 6                 //pin number for radio tone generation, connects to LoRa device pin DIO2
+  #define lora_DIO0 2                    //pin connected to DIO0 on LoRa device
+  #define PLED1 8                        //pin number for LED 
 #endif
 
 
@@ -55,5 +55,5 @@ board is plugged into ATMEGA2560 base. Be careful to ensure that all Pro Minis o
   #define lora_TonePin 6                 //pin connected to DIO2 on LoRa device
   #define lora_PNSS 10	                 //pin number where the NSS line for the LoRa device is connected
   #define lora_PReset A0                 //pin where LoRa device reset line is connected
-  #define PLED1 A3                       //pin number for LED on Tracker
+  #define PLED1 A3                       //pin number for LED
 #endif
