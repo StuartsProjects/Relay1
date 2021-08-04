@@ -55,5 +55,5 @@ board is plugged into ATMEGA2560 base. Be careful to ensure that all Pro Minis o
   #define lora_TonePin 6                 //pin connected to DIO2 on LoRa device
   #define lora_PNSS 10	                 //pin number where the NSS line for the LoRa device is connected
   #define lora_PReset A0                 //pin where LoRa device reset line is connected
-  #define PLED1 A3                       //pin number for LED
+  #define PLED1 A3                                          //pin number for LED
 #endif
